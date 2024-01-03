@@ -112,7 +112,7 @@
       <input type="radio" class="btn-check" name="btnradio" id="MBPP"> 
       <label class="btn btn-outline-primary" for="MBPP">MBPP</label>
     </div>
-    <div  id="chart" style="width:100%;height:400px;"></div>
+
     <div class="container-fluid d-flex flex-row flex-nowrap">
       <div class="container-fluid d-flex flex-column align-items-center">
         <label for="plused" class="text-success mb-3">⚡With EvalPlus⚡</label>
@@ -155,10 +155,7 @@
     const originTable = document.getElementById('origin');
     const plusedTable = document.getElementById('plused');
     const benchmarkRadio = document.getElementById('Benchmark');
-    const chartDom = document.getElementById('chart');
     
-    var myChart = echarts.init(chartDom);
-
     var option = {
       legend: {
         data: ['pass@1*']
@@ -270,26 +267,17 @@
 
     var data = [];
 
-    var currentUrl = 'humaneval.csv';
+    var currentUrl = 'data.csv';
 
-    updateTable(originTable, currentUrl, 'pass@1_base');
-    updateTable(plusedTable, currentUrl, 'pass@1_plus');
-    updateChart(currentUrl);
+    updateTable(originTable, currentUrl, 'i@1', 'i@5');
+    updateTable(plusedTable, currentUrl, 'o@1', 'i@5');
 
     function clearTable() {
       originTable.innerHTML = '';
       plusedTable.innerHTML = '';
     }
 
-    function clearChart() {
-      option.xAxis.data = [];
-      option.series[0].data = [];
-      option.series[1].data = [];
-      option.series[0].markLine.data = [];
-      option.series[1].markLine.data = [];
-    }
-
-    function updateTable(table, url, sortColumn) {
+    function updateTable(table, url, sortColumn, otherColumn) {
       clearTable();
       Papa.parse(url, {
         download: true,
@@ -299,36 +287,12 @@
           results.data.sort(function (a, b) {
             return parseFloat(b[sortColumn]) - parseFloat(a[sortColumn]);
           });
-          displayTable(table, results.data, sortColumn);
+          displayTable(table, results.data, sortColumn, otherColumn);
         }
       });
     }
 
-    function updateChart(url) {
-      clearChart();
-      Papa.parse(url, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function (results) {
-          for(var i = 0; i < results.data.length; i++){
-            var sizeMatch = results.data[i]['Model'].match(/\d+(\.\d+)?B/g);
-            sizeMatch = sizeMatch ? Math.round(parseFloat(sizeMatch[0].replace('B', ''))).toString() : 'N/A';
-            // special case for dolphin-2.6-mixtral-8x7b
-            if (results.data[i]['Model'] == 'dolphin-2.6-mixtral-8x7b'){
-              sizeMatch = '13';
-            }
-            results.data[i]['Size'] = sizeMatch ;
-          }
-          results.data.sort(function (a, b) {
-            return parseFloat(a['Size']) - parseFloat(b['Size']);
-          });
-          displayChart(results.data, url);
-        }
-      });
-    }
-
-    function displayTable(table, data, displayColumn){
+    function displayTable(table, data, displayColumn1, displayColumn2){
       var thead = document.createElement('thead');
       var headerRow = document.createElement('tr');
       // add rank
@@ -336,6 +300,7 @@
       th.textContent = '#';
       headerRow.appendChild(th);
       // headers
+      const theaders = ['Model', 'pass@1', 'pass@5'];
       theaders.forEach(function (header) {
         var th = document.createElement('th');
         th.textContent = header;
@@ -363,6 +328,7 @@
           modelCell.textContent = '';
         }
         rank++;
+
         var modelLink = document.createElement('a');
         modelLink.href = row['link'];
         modelLink.textContent = row['Model'];
@@ -371,23 +337,16 @@
         modelCell.appendChild(modelLink);
         modelCell.classList.add('d-flex');
         modelCell.classList.add('flex-nowrap');
-        var prompted = row['prompted'];
-        if (prompted == 'TRUE') {
-          // add a symbol to indicate the model is prompted
-          var promptedSymbol = document.createElement('span');
-          promptedSymbol.textContent = '🗒️';
-          modelCell.appendChild(promptedSymbol);
-        }
         dataRow.appendChild(modelCell);
-        var passCell = document.createElement('td');
-        if (table == originTable) {
-          passCell.classList.add('text-danger');
-        } else if (table == plusedTable) {
-          passCell.textContent = "⚡";
-          passCell.classList.add('text-success');
-        }
-        passCell.textContent += row[displayColumn];
-        dataRow.appendChild(passCell);
+
+        var pass1Cell = document.createElement('td');
+        pass1Cell.textContent += row[displayColumn1];
+        dataRow.appendChild(pass1Cell);
+
+        var pass5Cell = document.createElement('td');
+        pass5Cell.textContent += row[displayColumn2];
+        dataRow.appendChild(pass5Cell);
+
         tbody.appendChild(dataRow);
       });
       table.appendChild(tbody);
@@ -400,129 +359,11 @@
       currentUrl = 'mbpp.csv';
       updateTable(originTable, currentUrl, 'pass@1_base');
       updateTable(plusedTable, currentUrl, 'pass@1_plus');
-      updateChart(currentUrl);
     });
     humanEvalRadio.addEventListener('click', function () {
       currentUrl = 'humaneval.csv';
       updateTable(originTable, currentUrl, 'pass@1_base');
       updateTable(plusedTable, currentUrl, 'pass@1_plus');
-      updateChart(currentUrl);
-    });
-
-    function displayChart(data, url) {
-      var sizeSet = new Set();
-      data.forEach(function(row) {
-        if (row['Size'] != 'N/A') {
-          sizeSet.add(row['Size']);
-        }
-      });
-      sizeSet.forEach(function(size) {
-        option.xAxis.data.push(size);
-      });
-
-      var maxScore = 0.0;
-      data.forEach(function(row) {
-        if (parseFloat(row['pass@1_plus']) > maxScore) {
-          maxScore = parseFloat(row['pass@1_plus']);
-        }
-      });
-      option.yAxis.max = maxScore + 1;
-
-      data.forEach(function(row) {
-        if (row['Size'] == 'N/A') {
-          if (row['prompted'] == 'TRUE') {
-            option.series[1].markLine.data.push({
-              name: row['Model'],
-              yAxis: row['pass@1_plus']
-            });
-          } else {
-            option.series[0].markLine.data.push({
-              name: row['Model'],
-              yAxis: row['pass@1_plus']
-            });
-          }
-        } else {
-          if (row['prompted'] == 'TRUE') {
-            option.series[1].data.push({
-              name: row['Model'],
-              value: [row['Size'], row['pass@1_plus']],
-            });
-          } else {
-            option.series[0].data.push({
-              name: row['Model'],
-              value: [row['Size'], row['pass@1_plus']],
-            });
-          }
-        }
-      });
-
-      // select the highest model of each size
-      sizeSet.forEach(function(size) {
-        var maxScore = 0.0;
-        var maxScoreIns = 0.0;
-        var maxModel, maxModelIns, align;
-        if (size == Math.min.apply(this, [...sizeSet])) {
-          offset = [50, 0];
-        } else if (size == Math.max.apply(this, [...sizeSet])) {
-          offset = [-50, 0];
-        } else {
-          offset = [0, 0];
-        }
-
-        data.forEach(function(row) {
-          if (row['Size'] == size) {
-            if(row['prompted'] == 'TRUE') {
-              if (parseFloat(row['pass@1_plus']) > maxScoreIns) {
-                maxScoreIns = parseFloat(row['pass@1_plus']);
-                maxModelIns = row['Model'];
-              }
-            } else {
-              if (parseFloat(row['pass@1_plus']) > maxScore) {
-                maxScore = parseFloat(row['pass@1_plus']);
-                maxModel = row['Model'];
-              }
-            }
-          }
-        });
-        option.series[0].data.forEach(function(row) {
-          if (row.name == maxModel) {
-            row.itemStyle = {
-              opacity: 1.0
-            };
-            row.label = {
-              show: true,
-              position: 'top',
-              offset: offset,
-              formatter: function(params) {
-                return params.data.name;
-              },
-              color: 'inherit'
-            };
-          }
-        });
-        option.series[1].data.forEach(function(row) {
-          if (row.name == maxModelIns) {
-            row.itemStyle = {
-              opacity: 1.0
-            };
-            row.label = {
-              show: true,
-              position: 'top',
-              offset: offset,
-              formatter: function(params) {
-                return params.data.name;
-              },
-              color: 'inherit'
-            };
-          }
-        });
-      });
-
-      option && myChart.setOption(option);
-    }
-
-    window.addEventListener("resize", () => {
-      this.myChart.resize();
     });
 
   </script>

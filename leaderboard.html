@@ -160,11 +160,11 @@
 
     <div class="container-fluid d-flex flex-row flex-nowrap">
       <div class="container-fluid d-flex flex-column align-items-center">
-        <label for="plused" class="is-3" style="font-size: 120%;">CRUXEval-I</label>
+        <label for="plused" class="is-3" style="font-size: 180%;">CRUXEval-I</label>
         <table id="plused" class="table table-responsive table-striped table-bordered flex-shrink-1 border border-success border-3"></table>
       </div>
       <div class="container-fluid d-flex flex-column align-items-center">
-        <label for="origin" class="is-3" style="font-size: 120%;">CRUXEval-O</label>
+        <label for="origin" class="is-3" style="font-size: 180%;">CRUXEval-O</label>
         <table id="origin" class="table table-responsive table-striped table-bordered flex-shrink-1 border border-info border-3"></table>
       </div>
     </div>
@@ -213,115 +213,6 @@
     const plusedTable = document.getElementById('plused');
     const benchmarkRadio = document.getElementById('Benchmark');
     
-    var option = {
-      legend: {
-        data: ['pass@1*']
-      },
-      grid: {
-        left: '1%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        name: 'Size',
-        type: 'category',
-        boundaryGap: false,
-        data: [],
-        axisLabel: {
-          formatter: function(value) {
-            return value + 'B';
-          }
-        }
-      },
-      yAxis: {
-        name: 'PASS@1 (greedy decoding)',
-        type: 'value',
-        show: true,
-        nameTextStyle: {
-          align: 'left',
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            type: 'dashed'
-          }
-        }
-      },
-      legend: {
-        data: ['base', 'instructed'],
-        itemStyle: {
-          opacity: 1.0
-        },
-      },
-      tooltip: {
-        trigger: 'item',
-        axisPointer: {
-          type: 'cross'
-        }
-      },
-      series: [{
-          name: 'base',
-          type: 'scatter',
-          data: [],
-          itemStyle: {
-            color: '#91cc75',
-            opacity: 0.2
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          lineStyle: {
-            width: 2
-          },
-          markLine: {
-            symbol: 'none',
-            emphasis: {
-              label: {
-                position: 'middle',
-                formatter: function(params) {
-                  return params.data.name;
-                }
-              },
-            },
-            data: []
-          }
-        },
-        {
-          name: 'instructed',
-          type: 'scatter',
-          data: [],
-          itemStyle: {
-            color: '#5470c6',
-            opacity: 0.2
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          lineStyle: {
-            width: 2
-          },
-          markLine: {
-            symbol: 'none',
-            emphasis: {
-              label: {
-                position: 'middle',
-                formatter: function(params) {
-                  return params.data.name;
-                }
-              },
-            },
-            data: []
-          }
-        }
-      ]
-    };
-    
-    const theaders = [
-      'Model',
-      'pass@1',
-    ]
-
     var data = [];
 
     var currentUrl = 'data.csv';

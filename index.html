@@ -1,467 +1,381 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LeanDojo: Theorem Proving with Retrieval-Augmented Language Models</title>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRUXEval: Code Reasoning, Understanding, and Execution Evaluation</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
 
-    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="./static/css/academicons.min.css">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="./static/js/fontawesome.all.min.js"></script>
-    <!--
-    <script src="./static/js/bulma-carousel.min.js"></script>
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script src="./static/js/index.js"></script>
-    -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
 </head>
 <body>
 
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
 
 <section class="hero">
-    <div class="hero-body">
-        <div class="container is-max-desktop">
-            <div class="columns is-centered">
-                <div class="column has-text-centered">
-                    <h1 class="title is-1 publication-title">LeanDojo: Theorem Proving with Retrieval-Augmented Language Models</h1>
-                    <h3 class="title is-4 conference-authors"><a target="_blank" href="https://nips.cc/">NeurIPS 2023 (Datasets and Benchmarks Track), Oral presentation</a></h3>
-                    <!--
-                    <div class="is-size-5 publication-authors">
-                        <span class="author-block">
-                            <a target="_blank" href="https://yangky11.github.io/">Kaiyu&#160;Yang</a> <a href="mailto:kaiyuy@caltech.edu"><i class="fas fa-envelope"></i></a><sup>1</sup>,
-                            <a target="_blank" href="https://aidanswope.com/about">Aidan&#160;Swope</a><sup>2</sup>,
-                            <a target="_blank"
-                            href="https://minimario.github.io/">Alex&#160;Gu</a><sup>3</sup>,
-                            <a target="_blank" href="https://rchalamala.github.io/">Rahul&#160;Chalamala</a><sup>1</sup>,
-                            <a target="_blank" href="https://peiyang-song.github.io/">Peiyang&#160;Song</a><sup>4</sup>,
-                            <a target="_blank"
-                            href="https://billysx.github.io/">Shixing&#160;Yu</a><sup>5</sup>,
-                            <br>
-                            <a target="_blank" href="https://www.linkedin.com/in/saad-godil-9728353/">Saad&#160;Godil</a><sup>2</sup>,
-                            <a target="_blank" href="https://www.linkedin.com/in/ryan-prenger-18797ba1/">Ryan&#160;Prenger</a><sup>2</sup>,
-                            <a target="_blank" href="http://tensorlab.cms.caltech.edu/users/anima/">Anima&#160;Anandkumar</a><sup>1 2</sup>
-                
-                        </span>
-                    </div>
-
-                    <div class="is-size-5 publication-authors">
-                        <span class="author-block"><sup>1</sup>Caltech; </span>
-                        <span class="author-block"><sup>2</sup>NVIDIA; </span>
-                        <span class="author-block"><sup>3</sup>MIT; </span>
-                        <span class="author-block"><sup>4</sup>UC Santa Barbara; </span>
-                        <span class="author-block"><sup>5</sup>UT Austin </span>
-                    </div>
-
-                    <div class="is-size-5 publication-authors">
-                        <span class="author-block"><i class="fas fa-envelope"></i> Correspondence to: kaiyuy@caltech.edu</span>
-                    </div>
-                    -->
-
-                    <div class="column has-text-centered">
-                        <div class="publication-links">           
-                            <span class="link-block">
-                                <a target="_blank" href="https://arxiv.org/abs/2306.15626"
-                                class="external-link button is-normal is-rounded is-dark">
-                                <span class="icon">
-                                    <i class="ai ai-arxiv"></i>
-                                </span>
-                                <span>arXiv</span>
-                                </a>
-                            </span>
-
-                            <span class="link-block">
-                            <a target="_blank" href="https://github.com/lean-dojo"
-                            class="external-link button is-normal is-rounded is-dark">
-                            <span class="icon">
-                                <i class="fab fa-github"></i>
-                            </span>
-                            <span>Code</span>
-                            </a>
-
-                            <span class="link-block">
-                                <a target="_blank" href="https://leandojo.readthedocs.io/en/latest/index.html"
-                                class="external-link button is-normal is-rounded is-dark">
-                                <span class="icon">
-                                    <i class="fas fa-book"></i>
-                                </span>
-                                <span>Docs</span>
-                            </a>
-
-                            <a target="_blank" href="https://github.com/lean-dojo/ReProver"
-                            class="external-link button is-normal is-rounded is-dark">
-                            <span class="icon">
-                                <i class="fa fa-network-wired"></i>
-                            </span>
-                            <span>Models</span>
-                            </a>
-
-                            <a target="_blank" href="https://zenodo.org/doi/10.5281/zenodo.8016385"
-                            class="external-link button is-normal is-rounded is-dark">
-                            <span class="icon">
-                                <i class="fas fa-database"></i>
-                            </span>
-                            <span>Dataset (Lean 3)</span>
-                            </a>
-
-                            <a target="_blank" href="https://zenodo.org/doi/10.5281/zenodo.8040109"
-                            class="external-link button is-normal is-rounded is-dark">
-                            <span class="icon">
-                                <i class="fas fa-database"></i>
-                            </span>
-                            <span>Dataset (Lean 4)</span>
-                            </a>
-                            </span>
-
-                            <a target="_blank" href="https://github.com/lean-dojo/LeanCopilot"
-                            class="external-link button is-normal is-rounded is-dark">
-                            <span class="icon">
-                                <i class="fas fa-wrench"></i>
-                            </span>
-                            <span>Lean Copilot</span>
-                            </a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="lean-infer">LLMs as Copilots for Theorem Proving</span></h2>
-                    <video autoplay controls>
-            		  <source src="images/Lean Copilot demo.mp4" type="video/mp4">
-            		  Your browser does not support HTML video.
-            		</video>
-                    <br />
-                    <p style="font-size: 125%">We introduce <a target="_blank" href="https://github.com/lean-dojo/LeanCopilot">Lean Copilot</a> for LLMs to act as copilots in Lean for proof automation, e.g., suggesting tactics/premises and searching for proofs. Users can use our model or bring their own models that run either locally (w/ or w/o GPUs) or on the cloud.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-    
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="lean-infer">Overview of LeanDojo</span></h2>
-                    <img src="images/LeanDojo.jpg" class="interpolation-image" alt="" style="display: block; margin-left: auto; margin-right: auto"/>
-                    <br /> 
-                    <p style="font-size: 125%"><b>Top right</b>: LeanDojo extracts proofs in <a target="_blank" href="https://leanprover.github.io/">Lean</a> into datasets for training machine learning models. It also enables the trained model to prove theorems by interacting with Lean's proof environment.</p>
-                    <br />  
-                    <p style="font-size: 125%"><b>Top left</b>: The proof tree of a Lean theorem <a target="_blank" href="https://github.com/leanprover-community/lean/blob/cce7990ea86a78bdb383e38ed7f9b5ba93c60ce0/library/init/data/nat/gcd.lean#L36">\(\forall n \in \mathbb{N},~\texttt{gcd n n = n}\)</a>, where <span style="background-color:rgb(222, 235, 247);">\(\texttt{gcd}\)</span> is the greatest common divisor. When proving the theorem, we start from the original theorem as the initial state (the root) and repeatedly apply tactics (the edges) to decompose states into simpler sub-states, until all states are solved (the leaf nodes). Tactics may rely on premises such as <span style="background-color:rgb(251, 229, 214);">\(\texttt{mod_self}\)</span> and  <span style="background-color:rgb(226, 240, 217);">\(\texttt{gcd_zero_left}\)</span> defined in a large math library. E.g., <span style="background-color:rgb(251, 229, 214);">\(\texttt{mod_self}\)</span> is an existing theorem <a target="_blank" href="https://github.com/leanprover-community/lean/blob/cce7990ea86a78bdb383e38ed7f9b5ba93c60ce0/library/init/data/nat/lemmas.lean#L861">\(\forall n \in \mathbb{N},~\texttt{n % n = 0}\)</a> used in the proof to simplify the goal.</p>
-                    <br />
-                    <p style="font-size: 125%"><b>Bottom</b>: Our ReProver model. Given a state, it retrieves premises from the math library, which are concatenated with the state and fed into an encoder-decoder Transformer to generate the next tactic.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!--
-<section class="section">
+  <div class="hero-body">
     <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-            <div class="column">
-                <h2 class="title is-3">Abstract</h2>
-                <div class="content has-text-justified">
-                    <p style="font-size: 125%">
-                        Large language models (LLMs) have shown promise in proving formal theorems using proof assistants such as Lean. 
-                        However, existing methods are difficult to reproduce or build on, due to private code, data, and large compute 
-                        requirements. This has created substantial barriers to research on machine learning methods for theorem proving. 
-                        This paper removes these barriers by introducing <em>LeanDojo</em>: an open-source Lean playground consisting of toolkits, 
-                        data, models, and benchmarks. LeanDojo extracts data from Lean and enables interaction with the proof environment programmatically. 
-                        It contains fine-grained annotations of premises in proofs, providing valuable data for <em>premise selection</em>&mdash;
-                        a key bottleneck in theorem proving. Using this data, we develop <em>ReProver</em> (<u>Re</u>trieval-Augmented <u>Prover</u>): 
-                        an LLM-based prover that is augmented with retrieval for selecting premises from a vast math library. 
-                        It is inexpensive and needs only one GPU week of training. Our retriever leverages LeanDojo's program analysis 
-                        capability to identify accessible premises and hard negative examples, which makes retrieval much more effective. 
-                        Furthermore, we construct a new benchmark consisting of 98,641 theorems and proofs extracted from Lean's math library. 
-                        It features challenging data split requiring the prover to generalize to theorems relying on novel premises that are never 
-                        used in training. We use this benchmark for training and evaluation, and experimental results demonstrate the effectiveness 
-                        of ReProver over non-retrieval baselines and GPT-4. <b>We thus provide the first set of open-source LLM-based theorem provers without 
-                        any proprietary datasets and release it under a permissive MIT license to facilitate further research.</b>
-                    </p>
-                </div>
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">CRUXEval: Code Reasoning, Understanding, and Execution Evaluation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://minimario.github.io/">Alex Gu</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=CrSf2CQAAAAJ">Baptiste Rozière</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=oIGrLpsAAAAJ">Hugh Leather</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://people.csail.mit.edu/asolar/">Armando Solar-Lezama</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://ai.meta.com/people/gabriel-synnaeve/">Gabriel Synnaeve</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.sidaw.xyz/">Sida I. Wang</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>MIT</span>
+            <span class="author-block"><sup>2</sup>Meta AI Research</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/facebookresearch/cruxeval"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/cruxeval-org/cruxeval"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>HF Dataset</span>
+                  </a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
--->
-
-
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">Benchmarks</span></h2>
-                    <p style="font-size: 125%">
-                        <ul style="font-size: 125%; padding-left: 5%">
-                            <li><a href="https://doi.org/10.5281/zenodo.8016385"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8016385.svg" alt="DOI"></a> <b>LeanDojo Benchmark</b>: 98,734 theorems/proofs, 217,776 tactics, and 130,262 premises from <a target="_blank" href="https://github.com/leanprover-community/mathlib/tree/19c869efa56bbb8b500f2724c0b77261edbfa28c">mathlib</a>.</li>
-                            <li><a href="https://doi.org/10.5281/zenodo.8040109"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.8040109.svg" alt="DOI"></a> <b>LeanDojo Benchmark 4</b>: 102,514 theorems/proofs, 213,067 tactics, and 152,695 premises from <a target="_blank" href="https://github.com/leanprover-community/mathlib4/tree/3ce43c18f614b76e161f911b75a3e1ef641620ff">mathlib4</a>.</li>
-                        </ul>
-                    </p>
-                    <br />
-                    <p style="font-size: 125%">LeanDojo can extract data from any GitHub repos in Lean (supporting both Lean 3 and Lean 4). The data contains rich information not directly visible in the raw Lean code, including file dependencies, abstract syntax trees (ASTs), proof states, tactics, and premises.</p>
-                    <br />
-                    <p style="font-size: 125%"><b>Key feature 1: Premise information</b>: LeanDojo Benchmark contains fine-grained annotations of premises (where they are used in proofs and where they are defined in the library), providing valuable data for premise selection&mdash;a key bottleneck in theorem proving.</p>
-                    <br />
-                    <p style="font-size: 125%"><b>Key feature 2: Challenging data split</b>: Splitting theorems randomly into training/testing leads to overestimated performance. LLMs can prove seemingly difficult theorems simply by memorizing the proofs of similar theorems during training. We mitigate this issue by designing challenging data split requiring the model to generalize to theorems relying on novel premises that are never used in training.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </section>
 
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">Interacting with Lean</span></h2>
-                    <img src="images/interaction.jpg" width="50%" class="interpolation-image" alt="" style="display: block; margin-left: auto; margin-right: auto"/>
-                    <p style="font-size: 125%">LeanDojo turns Lean into a <a target="_blank" href="https://github.com/openai/gym">gym-like</a> environment, in which the prover can observe the proof state, run tactics to change the state, and receive feedback on errors or on proof completion. This environment is indispensable for evaluating/deploying the prover or training it through RL.</p>
-                </div>
-            </div>
+<section class="section" style="margin:0; padding:0;">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Motivation</h2>
+        <div class="content has-text-justified" style="font-size: 120%;">
+          <p>
+            The code LM community primarily relies on benchmarks like HumanEval and MBPP, 
+            which test the ability to generate short code snippets from natural language 
+            specifications. Many efforts overfit to these benchmarks without necessarily 
+            improving other fundamentally important abilities of code models such as reasoning 
+            about code execution. When it comes to reasoning about code, GPT-4 still seems to 
+            have a huge edge over other models.
+          </p>
         </div>
-    </div>
-</section>
-
-<!--
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">LeanDojo Benchmark</span></h2>
-                
-                    <img src="images/quaternion.jpg" class="interpolation-image" alt="" style="display: block; margin-left: auto; margin-right: auto"/>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">ReProver: Retrieval-Augmented Theorem Prover</span></h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
--->
-
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">Experiments</span></h2>
-                    <img src="images/results.png" width="40%" class="interpolation-image" alt="" style="display: block; margin-left: auto; margin-right: auto"/>
-                    <br />
-                    <p style="font-size: 125%">We use LeanDojo Benchmark to train and evaluate ReProver. During testing, the tactic generator is combined with best-first search to search for complete proofs. The table shows the percentage of theorem proved within 10 minutes. The \(\texttt{novel_premises}\) spilt is much more challenging than the \(\texttt{random}\) split. On both data splits, ReProver outperforms Lean's built-in proof automation tactic (tidy), a baseline that generates tactics directly without retrieval, and another baseline using GPT-4 to generate tactics in a zero-shot manner.</p>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
 </section>
 
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">Discovering New Proofs and Uncovering Formalization Bugs</span></h2>
-                    <p style="font-size: 125%">We evaluate ReProver on theorems in miniF2F and ProofNet. It discovers <a target="_blank" href="https://github.com/facebookresearch/miniF2F/pull/13">33 proofs in miniF2F</a> and <a target="_blank" href="https://github.com/zhangir-azerbayev/ProofNet/pull/14">39 proofs in ProofNet</a> of theorems that did not have existing proofs in Lean. Our proofs have helped ProofNet uncover multiple bugs in the formalization of theorem statements.</p>
-                </div>
-            </div>
+<section class="section" style="margin:0; padding:0;">
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">CRUXEval</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                To better evaluate this aspect of code LMs, we design CRUXEval, a benchmark 
+                of 800 Python functions and input-output pairs. The benchmark consists of two 
+                tasks, CRUXEval-I (input prediction) and CRUXEval-O (output prediction) designed 
+                to evaluate code reasoning, understanding, and execution. A sample of CRUXEval 
+                is shown below, together with the (incorrect) outputs produced by GPT-4:
+            </p>
         </div>
-    </div>
-</section>
+      </div>
+  </section>
 
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima" id="chatgpt-for-theorem-proving">ChatGPT for Theorem Proving</span></h2>
-                    <div class="columns">
-                        <div class="column has-text-left video-column">
-                            <video controls muted width="100%">
-                                <source src="images/chatgpt-1.mp4" type="video/mp4">
-                            </video>
-                            <div align="center">
-                                <a target="_blank" href="https://github.com/yangky11/lean-example/blob/5a0360e49946815cb53132638ccdd46fb1859e2a/src/example.lean#L3">\(a + b + c = a + c + b\)</a>
-                            </div>
-                        </div>
-
-                        <div class="column has-text-left video-column">
-                            <video controls muted width="100%">
-                                <source src="images/chatgpt-2.mp4" type="video/mp4">
-                            </video>
-                            <div align="center">
-                                <a target="_blank" href="https://github.com/leanprover-community/mathlib/blob/19c869efa56bbb8b500f2724c0b77261edbfa28c/src/analysis/special_functions/stirling.lean#L252">Stirling’s formula</a>
-                            </div>
-                        </div>
-
-                        <div class="column has-text-left video-column">
-                            <video controls muted width="100%">
-                                <source src="images/chatgpt-3.mp4" type="video/mp4">
-                            </video>
-                            <div align="center">
-                                <a target="_blank" href="https://github.com/leanprover-community/mathlib/blob/19c869efa56bbb8b500f2724c0b77261edbfa28c/src/algebra/big_operators/intervals.lean#L195">Gauss' summation formula</a>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <p style="font-size: 125%">We build a <a target="_blank" href="https://github.com/lean-dojo/LeanDojoChatGPT">LeanDojo ChatGPT plugin</a> that enables ChatGPT to prove theorems by interacting with Lean. Compared to specialized LLMs finetuned for theorem proving (e.g., ReProver), ChatGPT can interleave informal mathematics with formal proof steps, similar to how humans interact with proof assistants. It can explain error messages from Lean and is more steerable (by prompt engineering) than specialized provers. However, it struggles to find correct proofs in most cases, due to weakness in search and planning.</p>
-                </div>
-            </div>
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Benchmark Construction</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                The benchmark was constructed as follows:
+                <ol>
+                <li> Using Code Llama 34B, we generate a large set of candidate Python functions and inputs. </li>
+                <li> We filter these candidate functions for samples which a good human programmer should be able to do without extra memory in a minute or so. </li>
+                <li> 800 samples are randomly selected, a size that ensures the benchmark is both small enough to easily run and large enough to reliably compare different models. </li>
+                </ol>
+                We also highlight that as models improve, this generate-and-filter approach can be used to create future benchmarks that are more difficult and test other aspects of program execution.
+            </p>
+          </div>
         </div>
-    </div>
-</section>
-    
+      </div>
+  </section>
 
-<section class="section">
-    <div class="container is-max-widescreen">
-        <div class="rows">
-            <div class="rows is-centered ">
-                <div class="row is-full-width">
-                    <h2 class="title is-3"><span class="dvima">Team</span></h2>
-                    <div class="columns" style="max-width: 95%; padding-left: 10%;">
-                        <div class="column has-text-centered video-column">
-                            <a href="https://yangky11.github.io/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Kaiyu.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Kaiyu Yang</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://aidanswope.com/about" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Aidan.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Aidan Swope</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://minimario.github.io/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Alex.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Alex Gu</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://rchalamala.github.io/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Rahul.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Rahul Chalamala</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://peiyang-song.github.io/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Peiyang.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Peiyang Song</span>
-                            </a>
-                        </div>
-
-                    </div>
-                    <br />
-                    <div class="columns" style="max-width: 80%; padding-left: 10%;">
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://billysx.github.io/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Shixing.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Shixing Yu</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://www.linkedin.com/in/saad-godil-9728353/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Saad.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Saad Godil</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="https://www.linkedin.com/in/ryan-prenger-18797ba1/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Ryan.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Ryan Prenger</span>
-                            </a>
-                        </div>
-
-                        <div class="column has-text-centered video-column">
-                            <a href="http://tensorlab.cms.caltech.edu/users/anima/" target="_blank" style="border-bottom: none;">
-                                <span class="image" style="padding-left: 10%;"><img src="images/Anima.jpg" alt="" style="width: 90%;" /></span>
-                                <span style="font-weight: bold;">Anima Anandkumar</span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Results</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                The best model, GPT-4, achieves a pass@1 of 67% on CRUXEval-I and 63% on CRUXEval-O, while widely
+                used open-source models like Code Llama 34B only achieve 47% and 44%, respectively. Despite being 
+                trained on 100G of Python code and 1T of code data, it's a bit alarming that these models fail over
+                half the time at simple execution prediction and code reasoning!
+            </p>
+          </div>
+          <img src="./images/fig1.png" width="75%"/>
+          <br>
+          <br> 
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                Another interesting result is that even when the variable names are replaced by placeholders like 
+                x1, x2, etc., performance on CRUXEval remains relatively similar (within 3%).
+            </p>
+          </div>
+          <img src="./images/fig2.png" width="75%"/>
         </div>
-    </div>
-</section>
-    
+      </div>
+  </section>
+
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Insights</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                For base models, performance on HumanEval and CRUXEval are correlated. However, 
+                finetuning breaks this correlation: distilled models (WizardCoder, Phind, Phi)
+                significantly beat their base models on HumanEval but not CRUXEval.
+            </p>
+          </div>
+          <img src="./images/fig3.png" width="75%"/>
+          <br>
+          <br> 
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                Performance on CRUXEval-I and CRUXEval-O are very correlated. Because the 
+                tasks seem relatively different, this suggests that the code reasoning capabilities 
+                of models may generalize across tasks.
+            </p>
+          </div>
+          <img src="./images/fig4.png" width="50%"/>
+          <br>
+          <br> 
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                When comparing the predictions of different models, strong positive correlations
+                are seen between sizes of the same model, between models of the same size, and 
+                between instruct and base models. On average, samples that are harder for one model
+                tend to be harder for other models, but worse models succeed on some examples where
+                better models fail completely, showing the idiosyncrasies of each model's failures.
+            </p>
+          </div>
+          <img src="./images/fig5.png" width="85%"/>
+          <br>
+          <br> 
+        </div>
+      </div>
+  </section>
+
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Chain of Thought</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                Using CoT led to some improvements, with larger boosts on output prediction 
+                than input prediction. GPT-4 benefits significantly more from CoT than other 
+                models, achieving the highest pass@1 of 74.8% on input prediction and 81.9% on 
+                output prediction.
+            </p>
+          </div>
+          <img src="./images/fig6.png" width="60%"/>
+          <br>
+          <br> 
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                CoT increases the diversity of generated inputs and outputs, so models 
+                with CoT see a larger gap between pass@1 and pass@5 score compared to 
+                models without.
+            </p>
+          </div>
+          <img src="./images/fig7.png" width="75%"/>
+          <br>
+          <br> 
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                We also investigate the impact of CoT on individual samples. We classify a 
+                model's performance on an example as “poor” if the model gets that example 
+                wrong over half the time, and “good” otherwise. For Code Llama 13B/34B and GPT-3.5,
+                we find many individual samples where CoT actually hurts the prediction accuracy. 
+                This is less the case for GPT-4, where CoT improves performance for most samples.
+            </p>
+          </div>
+          <img src="./images/fig8.png" width="75%"/>
+        </div>
+      </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Fine-Tuning</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                After fine-tuning Code Llama 34B on assertions very similar to those in
+                our benchmark, it can match the performance of GPT-4 on both input and 
+                output prediction. However, accuracy plateaus at under 70% for both tasks, 
+                so simple finetuning is far from solving the benchmark.
+            </p>
+          </div>
+          <img src="./images/fig9.png" width="75%"/>
+        </div>
+      </div>
+  </section>
+
+
+
+
 <section class="section" id="BibTeX">
-    <div class="container is-max-widescreen content">
-        <h2 class="title">BibTeX</h2>
-        <pre><code>@inproceedings{yang2023leandojo,
-    title={{LeanDojo}: Theorem Proving with Retrieval-Augmented Language Models},
-    author={Yang, Kaiyu and Swope, Aidan and Gu, Alex and Chalamala, Rahul and Song, Peiyang and Yu, Shixing and Godil, Saad and Prenger, Ryan and Anandkumar, Anima},
-    booktitle={Neural Information Processing Systems (NeurIPS)},
-    year={2023}
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
 }</code></pre>
-    </div>
+  </div>
 </section>
+
 
 <footer class="footer">
-    <div class="container">
-        <div class="columns is-centered">
-            <div class="column">
-                <div class="content has-text-centered">
-                    <p>
-                        Website template borrowed from <a
-                            href="https://vimalabs.github.io/">VIMA</a>.
-                    </p>
-                </div>
-            </div>
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            The source code from this website is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">this template</a>!
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </footer>
 
 </body>

@@ -9,6 +9,27 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <link rel="shortcut icon" href="#" />
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+          rel="stylesheet">
+  
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"> <!-- <link rel="stylesheet" href="./static/css/index.css"> -->
+    <link rel="icon" href="./static/images/favicon.svg">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+
 
     <style>
       html,
@@ -90,17 +111,56 @@
     </style>
 
   </head>
+
   <body>
-    <div class="container">
-      <!-- Header -->
-      <div class="header row center-content">
-        <div class="col text-center">
-          <p style="margin-top: -10px">CruxEval EXPLORER</p>
-          <a href="#">arXiv</a> | 
-          <a href="#">GitHub</a>
+    <div id="content" class="container-fluid d-flex flex-column align-items-center gap-3">
+      <h1 style="padding-top: 20px;" class="title is-1 publication-title">🔎 CRUXEval Sample Explorer 🔎</h1>
+      <h3 class="fw-light text-center title is-3"><small id="warning">CRUXEval is a benchmark complementary to HumanEval and MBPP measuring code reasoning, understanding, and execution capabilities!<br></small></h2>
+      <div class="column has-text-centered">
+        <div class="publication-links">
+          <span class="link-block">
+          <a href="https://crux-eval.github.io/"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fas fa-home"></i>
+              </span>
+              <span>Homepage</span>
+          </a>
+          </span>
+
+          <span class="link-block">
+          <a href="https://arxiv.org/pdf/2011.12948"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fas fa-file-pdf"></i>
+              </span>
+              <span>Paper</span>
+          </a>
+          </span>
+
+          <span class="link-block">
+          <a href="https://github.com/facebookresearch/cruxeval"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+          </a>
+          </span>
+
+          <span class="link-block">
+          <a href="https://huggingface.co/datasets/cruxeval-org/cruxeval"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="far fa-images"></i>
+              </span>
+              <span>HF Dataset</span>
+          </a>
+          </span>
         </div>
       </div>
 
+    <div class="container">
       <!-- Scrollable Content Area -->
       <div class="scrollable-div">
         <table class="table">

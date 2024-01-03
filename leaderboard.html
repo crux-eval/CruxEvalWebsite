@@ -8,7 +8,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>EvalPlus Leaderboard</title>
+  <title>CRUXEval Leaderboard</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
   <!-- favicon.svg -->
@@ -91,38 +91,28 @@
 
 <body>
   <div id="content" class="container-fluid d-flex flex-column align-items-center gap-3">
-    <h1 class="text-nowrap mt-5">🏆 EvalPlus Leaderboard 🏆</h1>
-    <h3 class="fw-light text-nowrap"><small id="warning">EvalPlus evaluates AI Coders with rigorous tests.<br></small></h2>
+    <h1 class="text-nowrap mt-5">🏆 CRUXEval Leaderboard 🏆</h1>
+    <h3 class="fw-light text-nowrap"><small id="warning">CRUXEval is a benchmark complementary to HumanEval and MBPP measuring code reasoning, understanding, and execution capabilities!<br></small></h2>
     <div class="d-flex flex-row justify-content-center gap-3">
-      <a href="https://github.com/evalplus/evalplus"><img
+      <a href="https://github.com/facebookresearch/cruxeval"><img
           src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"
           alt="github" class="img-fluid"></a>
       <a href="https://arxiv.org/abs/2305.01210"><img
           src="https://img.shields.io/badge/arXiv-2305.01210-b31b1b.svg?style=for-the-badge" alt="arxiv"
           class="img-fluid"></a>
     </div>
-    <div class="d-flex flex-row justify-content-center gap-1 mt-3 mb-0">
-      <p> &#129303; </p>
-      <a href="https://github.com/evalplus/evalplus/issues/new?assignees=&labels=model+eval&projects=&template=model_eval_request.yml&title=%F0%9F%92%A1+%5BREQUEST%5D+-+%3CMODEL_NAME%3E">File a request</a>
-      <p>to add your models on our leaderboard!</p>
-    </div>
-    <div class="btn-group" role="group" id="Benchmark">
-      <input type="radio" class="btn-check" name="btnradio" id="HumanEval" checked>
-      <label class="btn btn-outline-primary" for="HumanEval">HumanEval</label>
-      <input type="radio" class="btn-check" name="btnradio" id="MBPP"> 
-      <label class="btn btn-outline-primary" for="MBPP">MBPP</label>
-    </div>
 
     <div class="container-fluid d-flex flex-row flex-nowrap">
       <div class="container-fluid d-flex flex-column align-items-center">
-        <label for="plused" class="text-success mb-3">⚡With EvalPlus⚡</label>
+        <label for="plused" class="mb-3">CRUXEval-I</label>
         <table id="plused" class="table table-responsive table-striped table-bordered flex-shrink-1 border border-success border-3"></table>
       </div>
       <div class="container-fluid d-flex flex-column align-items-center">
-        <label for="origin" class="text-danger mb-3">Original</label>
+        <label for="origin" class="mb-3">CRUXEval-O</label>
         <table id="origin" class="table table-responsive table-striped table-bordered flex-shrink-1 border border-danger border-3"></table>
       </div>
     </div>
+
     <div id = "notes">
       <h3>📝 Notes</h3>
       <p class="inline-block mt-3">
@@ -136,6 +126,7 @@
         </ol>
       </p>
     </div>
+
     <div id = "notes">
       <h3>🤗 More Leaderboards</h3>
       In addition to EvalPlus leaderboards, it is recommended to comprehensively understand LLM coding ability through a diverse set of benchmarks and leaderboards, such as:
@@ -269,8 +260,8 @@
 
     var currentUrl = 'data.csv';
 
-    updateTable(originTable, currentUrl, 'i@1', 'i@5');
-    updateTable(plusedTable, currentUrl, 'o@1', 'i@5');
+    updateTable(originTable, currentUrl, 'o@1', 'o@5');
+    updateTable(plusedTable, currentUrl, 'i@1', 'i@5');
 
     function clearTable() {
       originTable.innerHTML = '';
@@ -351,21 +342,6 @@
       });
       table.appendChild(tbody);
     }
-
-    const humanEvalRadio = document.getElementById('HumanEval');
-    const mbppRadio = document.getElementById('MBPP');
-
-    mbppRadio.addEventListener('click', function () {
-      currentUrl = 'mbpp.csv';
-      updateTable(originTable, currentUrl, 'pass@1_base');
-      updateTable(plusedTable, currentUrl, 'pass@1_plus');
-    });
-    humanEvalRadio.addEventListener('click', function () {
-      currentUrl = 'humaneval.csv';
-      updateTable(originTable, currentUrl, 'pass@1_base');
-      updateTable(plusedTable, currentUrl, 'pass@1_plus');
-    });
-
   </script>
 
 </body>

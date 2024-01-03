@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="CRUXEval: evaluating the code reasoning, understanding, and execution abilities of code LMs">
+  <meta name="keywords" content="code, LLM, code generation, program synthesis">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CRUXEval: Code Reasoning, Understanding, and Execution Evaluation</title>
 
@@ -58,11 +58,12 @@
             <span class="author-block"><sup>2</sup>Meta AI Research</span>
           </div>
 
+
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
+                <a href="https://arxiv.org/abs/xxxx.xxxxx"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -88,15 +89,40 @@
                   </span>
                   <span>HF Dataset</span>
                   </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://crux-eval.github.io/leaderboard"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-trophy"></i>
+                  </span>
+                  <span>Leaderboard</span>
+                  </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://crux-eval.github.io/demo"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-search"></i>
+                  </span>
+                  <span>Sample Explorer</span>
+                  </a>
+              </span>
             </div>
           </div>
+
+          <br>
+          <img src="./images/examples.png" width="100%"/>
+
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<!-- <section class="section">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
@@ -113,7 +139,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
 <section class="section" style="margin:0; padding:0;">
   <div class="container is-max-desktop">
@@ -129,27 +155,16 @@
             about code execution. When it comes to reasoning about code, GPT-4 still seems to 
             have a huge edge over other models.
           </p>
+
+          <p>
+            To better evaluate this aspect of code LMs, we design CRUXEval, a benchmark 
+            of 800 Python functions and input-output pairs. The benchmark consists of two 
+            tasks, CRUXEval-I (input prediction) and CRUXEval-O (output prediction) designed 
+            to evaluate code reasoning, understanding, and execution. 
+          </p>
         </div>
       </div>
     </div>
-</section>
-
-<section class="section" style="margin:0; padding:0;">
-  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-full">
-          <h2 class="title is-3">CRUXEval</h2>
-          <div class="content has-text-justified" style="font-size: 120%;">
-            <p>
-                To better evaluate this aspect of code LMs, we design CRUXEval, a benchmark 
-                of 800 Python functions and input-output pairs. The benchmark consists of two 
-                tasks, CRUXEval-I (input prediction) and CRUXEval-O (output prediction) designed 
-                to evaluate code reasoning, understanding, and execution. A sample of CRUXEval 
-                is shown below, together with the (incorrect) outputs produced by GPT-4:
-            </p>
-        </div>
-      </div>
   </section>
 
   <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
@@ -280,7 +295,7 @@
       </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
@@ -298,8 +313,30 @@
       </div>
   </section>
 
-
-
+  <section class="section" style="margin-bottom: 0; padding-bottom: 0;">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">GPT-4 Failures</h2>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p>
+                While GPT-4 performs the best on our benchmark, we still find simple programs 
+                for which it fails to execute correctly even with CoT, such as the ones shown below.
+            </p>
+          </div>
+          <img src="./images/fig10.png" width="75%"/>
+          <br>
+          <br>
+          <div class="content has-text-justified" style="font-size: 120%;">
+            <p> <b>
+                Overall, we believe that CRUXEval provides a complementary perspective to
+                classical code LM evaluation such as HumanEval and MBPP and encourage creators 
+                of future code LMs to try out our benchmark!
+            </b> </p>
+          </div>
+        </div>
+      </div>
+  </section>
 
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">

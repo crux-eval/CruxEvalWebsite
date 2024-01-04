@@ -14,7 +14,7 @@ deepseek-instruct-6.7b,37.4,53.3,41.2,52.8,https://huggingface.co/deepseek-ai/de
 mixtral-8x7b,39.3,59.1,40.5,54.0,https://huggingface.co/mistralai/Mixtral-8x7B-v0.1
 codellama-python-13b,39.7,56.9,39.8,52.5,https://huggingface.co/codellama/CodeLlama-13b-Python-hf
 codellama-7b+cot,40.4,62.8,29.9,55.4,https://huggingface.co/codellama/CodeLlama-7b-hf
-magicoder-ds-7b,41.7,62.4,44.4,57.5,https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B
+magicoder-ds-6.7b,41.7,62.4,44.4,57.5,https://huggingface.co/ise-uiuc/Magicoder-S-DS-6.7B
 deepseek-base-6.7b,41.9,62.7,43.5,54.8,https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-base
 codellama-13b,42.5,62.0,39.7,53.9,https://huggingface.co/codellama/CodeLlama-13b-hf
 wizard-34b,42.7,57.5,43.4,53.8,https://huggingface.co/WizardLM/WizardCoder-Python-34B-V1.0

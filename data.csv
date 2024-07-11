@@ -38,3 +38,5 @@ starcoder2-15b,48.1,66.9,47.1,59.5,https://huggingface.co/bigcode/starcoder2-15b
 stablecode-3b,33.5,53.3,26.7,43.5,https://huggingface.co/stabilityai/stable-code-3b
 claude-3-opus (n=1),64.2,-,65.8,-,https://www.anthropic.com/news/claude-3-family
 claude-3-opus+cot (n=1),73.4,-,82.0,-,https://www.anthropic.com/news/claude-3-family
+gpt-4o (n=3),65.1,-,70.0,-,https://openai.com/index/hello-gpt-4o/
+gpt-4o+cot (n=3),75.6,-,76.0,-,https://openai.com/index/hello-gpt-4o/

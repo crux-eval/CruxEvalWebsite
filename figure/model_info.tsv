@@ -1,0 +1,25 @@
+model	size	family	cot	training	HumanEval@1	EvalPlus	MBPP@1	display_name	ref
+codellama_13B	13	llama	FALSE	base	0.36	0.37			https://arxiv.org/pdf/2308.12950.pdf
+codellama_30B	34	llama	FALSE	base	0.49	0.43		codellama_34B	
+codellama_7B	7	llama	FALSE	base	0.34	0.34			
+codellama_cot13B	13	llama	TRUE	base					
+codellama_cot30B	34	llama	TRUE	base				codellama_cot34B	
+codellama_python_13B	13	llama	FALSE	base	0.43			codellama_py_13B	
+codellama_python_30B	34	llama	FALSE	base	0.54			codellama_py_34B	
+codellama_python_7B	7	llama	FALSE	base	0.38			codellama_py_7B	
+gpt35	99	gpt	FALSE	instruct	0.76	0.64			
+gpt35_cot	99	gpt	TRUE	instruct					
+gpt4	99	gpt	FALSE	instruct	0.84	0.77			
+gpt4_cot	99	gpt	TRUE	instruct					
+mistral	7	other	FALSE	base	0.31	0.23	0.48		https://huggingface.co/mistralai/Mistral-7B-v0.1
+phi	1.3	other	FALSE	instruct	0.34		0.38	phi1.5	https://huggingface.co/microsoft/phi-1_5
+phi1	1.3	other	FALSE	instruct	0.51		0.56		https://huggingface.co/microsoft/phi-1
+phind34b	34	llama	FALSE	instruct	0.74	0.67	not reported	phind_34B	https://huggingface.co/Phind/Phind-CodeLlama-34B-v2
+starcoder16b	15.5	other	FALSE	base	0.30	0.29	0.49	starcoder_16B	https://huggingface.co/bigcode/starcoderbase
+starcoder7b	7	other	FALSE	base	0.28	0.21	not reported	starcoder_7B	https://huggingface.co/bigcode/starcoderbase-7b
+wizard13b	13	llama	FALSE	instruct	0.64		0.56	wizard_13B	https://huggingface.co/WizardLM/WizardCoder-Python-13B-V1.0
+wizard34b	34	llama	FALSE	instruct	0.73	0.65	0.61	wizard_34B	https://huggingface.co/WizardLM/WizardCoder-Python-34B-V1.0
+deepseek-instruct7b	6.7	deepseek	FALSE	instruct	0.79	0.70	0.65	deepseek_ins_7B	https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-instruct
+deepseek-instruct33b	33	deepseek	FALSE	instruct	0.79	0.73	0.70	deepseek_ins_33B	https://huggingface.co/deepseek-ai/deepseek-coder-33b-instruct
+deepseek-base7b	7	deepseek	FALSE	base	0.49	0.40		deepseek_7B	https://huggingface.co/deepseek-ai/deepseek-coder-6.7b-base
+deepseek-base33b	33	deepseek	FALSE	base	0.56	0.43		deepseek_33B	https://huggingface.co/deepseek-ai/deepseek-coder-33b-base
